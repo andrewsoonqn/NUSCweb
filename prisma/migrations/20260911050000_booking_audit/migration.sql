@@ -161,6 +161,42 @@ BEFORE TRUNCATE ON "public"."booking_audits"
 FOR EACH STATEMENT
 EXECUTE FUNCTION "public"."reject_booking_audit_change"();
 
-REVOKE INSERT, UPDATE, DELETE, TRUNCATE ON "public"."booking_audits" FROM PUBLIC;
+REVOKE ALL PRIVILEGES ON "public"."booking_audits" FROM PUBLIC;
+REVOKE ALL PRIVILEGES ON SEQUENCE "public"."booking_audits_id_seq" FROM PUBLIC;
+
+-- A hosted database can apply default table privileges directly to named roles.
+-- Remove every such grant, including grants inherited by exposed API roles. A
+-- dedicated non-owner application role must receive SELECT explicitly after
+-- migration; booking writes continue through the SECURITY DEFINER trigger.
+DO $$
+DECLARE
+    granted_role RECORD;
+BEGIN
+    FOR granted_role IN
+        SELECT DISTINCT role.rolname
+        FROM pg_catalog.pg_class AS relation
+        JOIN pg_catalog.pg_namespace AS namespace
+            ON namespace.oid = relation.relnamespace
+        CROSS JOIN LATERAL pg_catalog.aclexplode(
+            COALESCE(
+                relation.relacl,
+                pg_catalog.acldefault('r', relation.relowner)
+            )
+        ) AS privilege
+        JOIN pg_catalog.pg_roles AS role
+            ON role.oid = privilege.grantee
+        WHERE namespace.nspname = 'public'
+          AND relation.relname = 'booking_audits'
+          AND relation.relkind = 'r'
+          AND role.oid <> relation.relowner
+    LOOP
+        EXECUTE pg_catalog.format(
+            'REVOKE ALL PRIVILEGES ON TABLE public.booking_audits FROM %I',
+            granted_role.rolname
+        );
+    END LOOP;
+END;
+$$;
+
 REVOKE ALL ON FUNCTION "public"."audit_booking_mutation"() FROM PUBLIC;
 REVOKE ALL ON FUNCTION "public"."reject_booking_audit_change"() FROM PUBLIC;

@@ -63,20 +63,41 @@ else
   psql_test=(psql -X -q -v ON_ERROR_STOP=1 -h "$work" -p "$port" -d booking_audit_test)
 fi
 
+# Simulate a hosted database default privilege that exposes every newly
+# created table to a named runtime role. The audit migration must remove this
+# direct grant instead of relying only on revoking PUBLIC.
+"${psql_test[@]}" -v runtime_role="$runtime_role" <<'SQL'
+CREATE ROLE :"runtime_role";
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO :"runtime_role";
+SQL
+role_created=1
+
 while IFS= read -r migration; do
   "${psql_test[@]}" -f "$migration" >/dev/null
 done < <(find "$repo/prisma/migrations" -name migration.sql -print | sort)
 
 "${psql_test[@]}" -v runtime_role="$runtime_role" <<'SQL'
-CREATE ROLE :"runtime_role";
+SELECT (
+  has_table_privilege(:'runtime_role', 'public.booking_audits', 'SELECT') OR
+  has_table_privilege(:'runtime_role', 'public.booking_audits', 'INSERT') OR
+  has_table_privilege(:'runtime_role', 'public.booking_audits', 'UPDATE') OR
+  has_table_privilege(:'runtime_role', 'public.booking_audits', 'DELETE')
+) AS retained_audit_privilege \gset
+\if :retained_audit_privilege
+  \echo 'booking audit migration retained named-role table privileges' >&2
+  \quit 3
+\endif
+
 GRANT USAGE ON SCHEMA public TO :"runtime_role";
 GRANT SELECT, INSERT, UPDATE, DELETE ON
   users, organisations, user_on_org, venues, bookings, events
   TO :"runtime_role";
+-- Production must likewise grant only read access to its dedicated non-owner
+-- application role after the migration has removed inherited/default grants.
 GRANT SELECT ON booking_audits TO :"runtime_role";
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO :"runtime_role";
 SQL
-role_created=1
 
 TEST_DATABASE_URL="$database_url" \
 BOOKING_AUDIT_TEST_RUNTIME_ROLE="$runtime_role" \
