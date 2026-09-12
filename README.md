@@ -2,6 +2,8 @@
 
 The frontend for the NUSCC Website.
 
+Operational documentation: [booking audit history](docs/booking-audit.md).
+
 ## 💻 Technologies Used
 
 - **Frontend**: Next.js, React, TypeScript

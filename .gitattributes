@@ -1,0 +1,2 @@
+# Prisma owns declaration spacing in the checked-in generated client.
+prisma/generated/prisma/index.d.ts whitespace=-trailing-space
