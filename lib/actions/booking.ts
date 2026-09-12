@@ -12,6 +12,7 @@ import {
   NewBookingServerSchema,
 } from '@/lib/schema/booking';
 import { formDataToObject } from '@/lib/utils';
+import { setBookingAuditContext } from '@/lib/utils/server/booking-audit';
 
 // TODO: Check if organisations have exceeded their weekly limit in bookings
 
@@ -179,45 +180,48 @@ export const editBooking = async (
   }
 
   try {
-    await prisma.booking.update({
-      where: { id: data.id },
-      data: {
-        bookingName: data.bookingName,
-        venueId: data.venueId,
-        userId: token.userId,
-        // TODO: userOrgId isn't technically correct right now
-        // especially if an admin is booking for another IG
-        userOrgId: data.organisationId,
-        bookedForOrgId: data.organisationId,
-        start: data.startTime,
-        end: data.endTime,
-        event: data.addToCalendar
-          ? {
-              upsert: {
-                create: {
-                  eventName: data.bookingName,
-                  userId: token.userId,
-                  // TODO: userOrgId isn't technically correct right now
-                  // especially if an admin is booking for another IG
-                  userOrgId: data.organisationId,
-                  bookedForOrgId: data.organisationId,
-                  start: data.startTime,
-                  end: data.endTime,
+    await prisma.$transaction(async (tx) => {
+      await setBookingAuditContext(tx, token.userId, 'booking-edit');
+      await tx.booking.update({
+        where: { id: data.id },
+        data: {
+          bookingName: data.bookingName,
+          venueId: data.venueId,
+          userId: token.userId,
+          // TODO: userOrgId isn't technically correct right now
+          // especially if an admin is booking for another IG
+          userOrgId: data.organisationId,
+          bookedForOrgId: data.organisationId,
+          start: data.startTime,
+          end: data.endTime,
+          event: data.addToCalendar
+            ? {
+                upsert: {
+                  create: {
+                    eventName: data.bookingName,
+                    userId: token.userId,
+                    // TODO: userOrgId isn't technically correct right now
+                    // especially if an admin is booking for another IG
+                    userOrgId: data.organisationId,
+                    bookedForOrgId: data.organisationId,
+                    start: data.startTime,
+                    end: data.endTime,
+                  },
+                  update: {
+                    eventName: data.bookingName,
+                    userId: token.userId,
+                    // TODO: userOrgId isn't technically correct right now
+                    // especially if an admin is booking for another IG
+                    userOrgId: data.organisationId,
+                    bookedForOrgId: data.organisationId,
+                    start: data.startTime,
+                    end: data.endTime,
+                  },
                 },
-                update: {
-                  eventName: data.bookingName,
-                  userId: token.userId,
-                  // TODO: userOrgId isn't technically correct right now
-                  // especially if an admin is booking for another IG
-                  userOrgId: data.organisationId,
-                  bookedForOrgId: data.organisationId,
-                  start: data.startTime,
-                  end: data.endTime,
-                },
-              },
-            }
-          : { delete: true },
-      },
+              }
+            : { delete: true },
+        },
+      });
     });
   } catch (error) {
     console.error('Error editing booking:', error);
@@ -286,8 +290,11 @@ export const deleteBooking = async (
 
   // TODO: Change this to soft delete instead
   try {
-    await prisma.booking.delete({
-      where: { id: data.id },
+    await prisma.$transaction(async (tx) => {
+      await setBookingAuditContext(tx, token.userId, 'booking-delete');
+      await tx.booking.delete({
+        where: { id: data.id },
+      });
     });
   } catch (error) {
     console.error('Error deleting booking:', error);

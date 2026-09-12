@@ -12,6 +12,7 @@ import {
   NewEventSchema,
 } from '@/lib/schema/event';
 import { formDataToObject } from '@/lib/utils';
+import { setBookingAuditContext } from '@/lib/utils/server/booking-audit';
 
 export const createEvent = async (
   _prevState: ServerActionState,
@@ -132,6 +133,7 @@ export const editEvent = async (
 
   try {
     await prisma.$transaction(async (tx) => {
+      await setBookingAuditContext(tx, token.userId, 'event-edit');
       const { booking } = await tx.event.update({
         where: { id: data.id },
         data: {
@@ -227,6 +229,7 @@ export const deleteEvent = async (
   // TODO: Change this to soft delete instead
   try {
     await prisma.$transaction(async (tx) => {
+      await setBookingAuditContext(tx, token.userId, 'event-delete');
       const { booking } = await tx.event.delete({
         where: { id: data.id },
         select: { booking: { select: { id: true } } },

@@ -13,6 +13,7 @@ import {
   NewOrganisationServerSchema,
 } from '@/lib/schema/organisation';
 import { formDataToObject } from '@/lib/utils';
+import { setBookingAuditContext } from '@/lib/utils/server/booking-audit';
 
 export const createOrganisation = async (
   _prevState: ServerActionState,
@@ -168,8 +169,11 @@ export const deleteOrganisation = async (
   }
 
   try {
-    await prisma.organisation.delete({
-      where: { id: data.id },
+    await prisma.$transaction(async (tx) => {
+      await setBookingAuditContext(tx, token.userId, 'organisation-delete');
+      await tx.organisation.delete({
+        where: { id: data.id },
+      });
     });
   } catch (error) {
     console.error('Error deleting organisation:', error);
@@ -216,13 +220,16 @@ export const leaveOrganisation = async (
   }
 
   // TODO: Use soft delete
-  const deleted = await prisma.userOnOrg.delete({
-    where: {
-      userId_orgId: {
-        orgId: data.id,
-        userId: token.userId,
+  const deleted = await prisma.$transaction(async (tx) => {
+    await setBookingAuditContext(tx, token.userId, 'organisation-leave');
+    return tx.userOnOrg.delete({
+      where: {
+        userId_orgId: {
+          orgId: data.id,
+          userId: token.userId,
+        },
       },
-    },
+    });
   });
 
   if (!deleted) {

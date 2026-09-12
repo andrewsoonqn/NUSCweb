@@ -188,9 +188,32 @@ exports.Prisma.EventScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BookingAuditScalarFieldEnum = {
+  id: 'id',
+  bookingId: 'bookingId',
+  action: 'action',
+  actorUserId: 'actorUserId',
+  actorName: 'actorName',
+  actorTelegramUserName: 'actorTelegramUserName',
+  source: 'source',
+  databaseUser: 'databaseUser',
+  before: 'before',
+  after: 'after',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -201,6 +224,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.IGCategory = exports.$Enums.IGCategory = {
   Sports: 'Sports',
@@ -216,7 +245,8 @@ exports.Prisma.ModelName = {
   UserOnOrg: 'UserOnOrg',
   Venue: 'Venue',
   Booking: 'Booking',
-  Event: 'Event'
+  Event: 'Event',
+  BookingAudit: 'BookingAudit'
 };
 
 /**

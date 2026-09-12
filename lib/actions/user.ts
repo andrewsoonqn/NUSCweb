@@ -8,6 +8,7 @@ import { getAuthCookie } from '@/lib/auth/server';
 import prisma from '@/lib/prisma';
 import { DeleteUserSchema, EditUserServerSchema } from '@/lib/schema/user';
 import { formDataToObject } from '@/lib/utils';
+import { setBookingAuditContext } from '@/lib/utils/server/booking-audit';
 
 export const editUser = async (
   _prevState: ServerActionState,
@@ -47,6 +48,7 @@ export const editUser = async (
 
   try {
     await prisma.$transaction(async (tx) => {
+      await setBookingAuditContext(tx, token.userId, 'user-membership-edit');
       const user = await tx.user.findUniqueOrThrow({
         where: { id: data.id },
         select: { userOrgs: true },
@@ -123,8 +125,11 @@ export const deleteUser = async (
   }
 
   try {
-    await prisma.user.delete({
-      where: { id: data.id },
+    await prisma.$transaction(async (tx) => {
+      await setBookingAuditContext(tx, token.userId, 'user-delete');
+      await tx.user.delete({
+        where: { id: data.id },
+      });
     });
   } catch (error) {
     console.error('Error deleting user:', error);

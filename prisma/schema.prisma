@@ -111,3 +111,22 @@ model Event {
 
     @@map("events")
 }
+
+model BookingAudit {
+    id                    BigInt   @id @default(autoincrement())
+    bookingId             Int      @map("booking_id")
+    action                String
+    actorUserId           Int?     @map("actor_user_id")
+    actorName             String?  @map("actor_name")
+    actorTelegramUserName String?  @map("actor_telegram_user_name")
+    source                String   @default("database")
+    databaseUser          String   @default(dbgenerated("SESSION_USER")) @map("database_user")
+    before                Json
+    after                 Json?
+    createdAt             DateTime @default(now()) @map("created_at")
+
+    @@index([bookingId])
+    @@index([actorUserId])
+    @@index([createdAt(sort: Desc), id(sort: Desc)])
+    @@map("booking_audits")
+}

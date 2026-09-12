@@ -43,6 +43,11 @@ export type Booking = $Result.DefaultSelection<Prisma.$BookingPayload>
  * 
  */
 export type Event = $Result.DefaultSelection<Prisma.$EventPayload>
+/**
+ * Model BookingAudit
+ * 
+ */
+export type BookingAudit = $Result.DefaultSelection<Prisma.$BookingAuditPayload>
 
 /**
  * Enums
@@ -240,6 +245,16 @@ export class PrismaClient<
     * ```
     */
   get event(): Prisma.EventDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.bookingAudit`: Exposes CRUD operations for the **BookingAudit** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BookingAudits
+    * const bookingAudits = await prisma.bookingAudit.findMany()
+    * ```
+    */
+  get bookingAudit(): Prisma.BookingAuditDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -679,7 +694,8 @@ export namespace Prisma {
     UserOnOrg: 'UserOnOrg',
     Venue: 'Venue',
     Booking: 'Booking',
-    Event: 'Event'
+    Event: 'Event',
+    BookingAudit: 'BookingAudit'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -695,7 +711,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "organisation" | "userOnOrg" | "venue" | "booking" | "event"
+      modelProps: "user" | "organisation" | "userOnOrg" | "venue" | "booking" | "event" | "bookingAudit"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1143,6 +1159,80 @@ export namespace Prisma {
           }
         }
       }
+      BookingAudit: {
+        payload: Prisma.$BookingAuditPayload<ExtArgs>
+        fields: Prisma.BookingAuditFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BookingAuditFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingAuditPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BookingAuditFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingAuditPayload>
+          }
+          findFirst: {
+            args: Prisma.BookingAuditFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingAuditPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BookingAuditFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingAuditPayload>
+          }
+          findMany: {
+            args: Prisma.BookingAuditFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingAuditPayload>[]
+          }
+          create: {
+            args: Prisma.BookingAuditCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingAuditPayload>
+          }
+          createMany: {
+            args: Prisma.BookingAuditCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BookingAuditCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingAuditPayload>[]
+          }
+          delete: {
+            args: Prisma.BookingAuditDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingAuditPayload>
+          }
+          update: {
+            args: Prisma.BookingAuditUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingAuditPayload>
+          }
+          deleteMany: {
+            args: Prisma.BookingAuditDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BookingAuditUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BookingAuditUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingAuditPayload>[]
+          }
+          upsert: {
+            args: Prisma.BookingAuditUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingAuditPayload>
+          }
+          aggregate: {
+            args: Prisma.BookingAuditAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBookingAudit>
+          }
+          groupBy: {
+            args: Prisma.BookingAuditGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BookingAuditGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BookingAuditCountArgs<ExtArgs>
+            result: $Utils.Optional<BookingAuditCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1257,6 +1347,7 @@ export namespace Prisma {
     venue?: VenueOmit
     booking?: BookingOmit
     event?: EventOmit
+    bookingAudit?: BookingAuditOmit
   }
 
   /* Types for Logging */
@@ -8568,6 +8659,1113 @@ export namespace Prisma {
 
 
   /**
+   * Model BookingAudit
+   */
+
+  export type AggregateBookingAudit = {
+    _count: BookingAuditCountAggregateOutputType | null
+    _avg: BookingAuditAvgAggregateOutputType | null
+    _sum: BookingAuditSumAggregateOutputType | null
+    _min: BookingAuditMinAggregateOutputType | null
+    _max: BookingAuditMaxAggregateOutputType | null
+  }
+
+  export type BookingAuditAvgAggregateOutputType = {
+    id: number | null
+    bookingId: number | null
+    actorUserId: number | null
+  }
+
+  export type BookingAuditSumAggregateOutputType = {
+    id: bigint | null
+    bookingId: number | null
+    actorUserId: number | null
+  }
+
+  export type BookingAuditMinAggregateOutputType = {
+    id: bigint | null
+    bookingId: number | null
+    action: string | null
+    actorUserId: number | null
+    actorName: string | null
+    actorTelegramUserName: string | null
+    source: string | null
+    databaseUser: string | null
+    createdAt: Date | null
+  }
+
+  export type BookingAuditMaxAggregateOutputType = {
+    id: bigint | null
+    bookingId: number | null
+    action: string | null
+    actorUserId: number | null
+    actorName: string | null
+    actorTelegramUserName: string | null
+    source: string | null
+    databaseUser: string | null
+    createdAt: Date | null
+  }
+
+  export type BookingAuditCountAggregateOutputType = {
+    id: number
+    bookingId: number
+    action: number
+    actorUserId: number
+    actorName: number
+    actorTelegramUserName: number
+    source: number
+    databaseUser: number
+    before: number
+    after: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type BookingAuditAvgAggregateInputType = {
+    id?: true
+    bookingId?: true
+    actorUserId?: true
+  }
+
+  export type BookingAuditSumAggregateInputType = {
+    id?: true
+    bookingId?: true
+    actorUserId?: true
+  }
+
+  export type BookingAuditMinAggregateInputType = {
+    id?: true
+    bookingId?: true
+    action?: true
+    actorUserId?: true
+    actorName?: true
+    actorTelegramUserName?: true
+    source?: true
+    databaseUser?: true
+    createdAt?: true
+  }
+
+  export type BookingAuditMaxAggregateInputType = {
+    id?: true
+    bookingId?: true
+    action?: true
+    actorUserId?: true
+    actorName?: true
+    actorTelegramUserName?: true
+    source?: true
+    databaseUser?: true
+    createdAt?: true
+  }
+
+  export type BookingAuditCountAggregateInputType = {
+    id?: true
+    bookingId?: true
+    action?: true
+    actorUserId?: true
+    actorName?: true
+    actorTelegramUserName?: true
+    source?: true
+    databaseUser?: true
+    before?: true
+    after?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type BookingAuditAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BookingAudit to aggregate.
+     */
+    where?: BookingAuditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BookingAudits to fetch.
+     */
+    orderBy?: BookingAuditOrderByWithRelationInput | BookingAuditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BookingAuditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BookingAudits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BookingAudits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BookingAudits
+    **/
+    _count?: true | BookingAuditCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BookingAuditAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BookingAuditSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BookingAuditMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BookingAuditMaxAggregateInputType
+  }
+
+  export type GetBookingAuditAggregateType<T extends BookingAuditAggregateArgs> = {
+        [P in keyof T & keyof AggregateBookingAudit]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBookingAudit[P]>
+      : GetScalarType<T[P], AggregateBookingAudit[P]>
+  }
+
+
+
+
+  export type BookingAuditGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BookingAuditWhereInput
+    orderBy?: BookingAuditOrderByWithAggregationInput | BookingAuditOrderByWithAggregationInput[]
+    by: BookingAuditScalarFieldEnum[] | BookingAuditScalarFieldEnum
+    having?: BookingAuditScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BookingAuditCountAggregateInputType | true
+    _avg?: BookingAuditAvgAggregateInputType
+    _sum?: BookingAuditSumAggregateInputType
+    _min?: BookingAuditMinAggregateInputType
+    _max?: BookingAuditMaxAggregateInputType
+  }
+
+  export type BookingAuditGroupByOutputType = {
+    id: bigint
+    bookingId: number
+    action: string
+    actorUserId: number | null
+    actorName: string | null
+    actorTelegramUserName: string | null
+    source: string
+    databaseUser: string
+    before: JsonValue
+    after: JsonValue | null
+    createdAt: Date
+    _count: BookingAuditCountAggregateOutputType | null
+    _avg: BookingAuditAvgAggregateOutputType | null
+    _sum: BookingAuditSumAggregateOutputType | null
+    _min: BookingAuditMinAggregateOutputType | null
+    _max: BookingAuditMaxAggregateOutputType | null
+  }
+
+  type GetBookingAuditGroupByPayload<T extends BookingAuditGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BookingAuditGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BookingAuditGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BookingAuditGroupByOutputType[P]>
+            : GetScalarType<T[P], BookingAuditGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BookingAuditSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookingId?: boolean
+    action?: boolean
+    actorUserId?: boolean
+    actorName?: boolean
+    actorTelegramUserName?: boolean
+    source?: boolean
+    databaseUser?: boolean
+    before?: boolean
+    after?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["bookingAudit"]>
+
+  export type BookingAuditSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookingId?: boolean
+    action?: boolean
+    actorUserId?: boolean
+    actorName?: boolean
+    actorTelegramUserName?: boolean
+    source?: boolean
+    databaseUser?: boolean
+    before?: boolean
+    after?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["bookingAudit"]>
+
+  export type BookingAuditSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookingId?: boolean
+    action?: boolean
+    actorUserId?: boolean
+    actorName?: boolean
+    actorTelegramUserName?: boolean
+    source?: boolean
+    databaseUser?: boolean
+    before?: boolean
+    after?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["bookingAudit"]>
+
+  export type BookingAuditSelectScalar = {
+    id?: boolean
+    bookingId?: boolean
+    action?: boolean
+    actorUserId?: boolean
+    actorName?: boolean
+    actorTelegramUserName?: boolean
+    source?: boolean
+    databaseUser?: boolean
+    before?: boolean
+    after?: boolean
+    createdAt?: boolean
+  }
+
+  export type BookingAuditOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bookingId" | "action" | "actorUserId" | "actorName" | "actorTelegramUserName" | "source" | "databaseUser" | "before" | "after" | "createdAt", ExtArgs["result"]["bookingAudit"]>
+
+  export type $BookingAuditPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BookingAudit"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      bookingId: number
+      action: string
+      actorUserId: number | null
+      actorName: string | null
+      actorTelegramUserName: string | null
+      source: string
+      databaseUser: string
+      before: Prisma.JsonValue
+      after: Prisma.JsonValue | null
+      createdAt: Date
+    }, ExtArgs["result"]["bookingAudit"]>
+    composites: {}
+  }
+
+  type BookingAuditGetPayload<S extends boolean | null | undefined | BookingAuditDefaultArgs> = $Result.GetResult<Prisma.$BookingAuditPayload, S>
+
+  type BookingAuditCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BookingAuditFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BookingAuditCountAggregateInputType | true
+    }
+
+  export interface BookingAuditDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BookingAudit'], meta: { name: 'BookingAudit' } }
+    /**
+     * Find zero or one BookingAudit that matches the filter.
+     * @param {BookingAuditFindUniqueArgs} args - Arguments to find a BookingAudit
+     * @example
+     * // Get one BookingAudit
+     * const bookingAudit = await prisma.bookingAudit.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BookingAuditFindUniqueArgs>(args: SelectSubset<T, BookingAuditFindUniqueArgs<ExtArgs>>): Prisma__BookingAuditClient<$Result.GetResult<Prisma.$BookingAuditPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BookingAudit that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BookingAuditFindUniqueOrThrowArgs} args - Arguments to find a BookingAudit
+     * @example
+     * // Get one BookingAudit
+     * const bookingAudit = await prisma.bookingAudit.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BookingAuditFindUniqueOrThrowArgs>(args: SelectSubset<T, BookingAuditFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BookingAuditClient<$Result.GetResult<Prisma.$BookingAuditPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BookingAudit that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingAuditFindFirstArgs} args - Arguments to find a BookingAudit
+     * @example
+     * // Get one BookingAudit
+     * const bookingAudit = await prisma.bookingAudit.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BookingAuditFindFirstArgs>(args?: SelectSubset<T, BookingAuditFindFirstArgs<ExtArgs>>): Prisma__BookingAuditClient<$Result.GetResult<Prisma.$BookingAuditPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BookingAudit that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingAuditFindFirstOrThrowArgs} args - Arguments to find a BookingAudit
+     * @example
+     * // Get one BookingAudit
+     * const bookingAudit = await prisma.bookingAudit.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BookingAuditFindFirstOrThrowArgs>(args?: SelectSubset<T, BookingAuditFindFirstOrThrowArgs<ExtArgs>>): Prisma__BookingAuditClient<$Result.GetResult<Prisma.$BookingAuditPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BookingAudits that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingAuditFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BookingAudits
+     * const bookingAudits = await prisma.bookingAudit.findMany()
+     * 
+     * // Get first 10 BookingAudits
+     * const bookingAudits = await prisma.bookingAudit.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bookingAuditWithIdOnly = await prisma.bookingAudit.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BookingAuditFindManyArgs>(args?: SelectSubset<T, BookingAuditFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingAuditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BookingAudit.
+     * @param {BookingAuditCreateArgs} args - Arguments to create a BookingAudit.
+     * @example
+     * // Create one BookingAudit
+     * const BookingAudit = await prisma.bookingAudit.create({
+     *   data: {
+     *     // ... data to create a BookingAudit
+     *   }
+     * })
+     * 
+     */
+    create<T extends BookingAuditCreateArgs>(args: SelectSubset<T, BookingAuditCreateArgs<ExtArgs>>): Prisma__BookingAuditClient<$Result.GetResult<Prisma.$BookingAuditPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BookingAudits.
+     * @param {BookingAuditCreateManyArgs} args - Arguments to create many BookingAudits.
+     * @example
+     * // Create many BookingAudits
+     * const bookingAudit = await prisma.bookingAudit.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BookingAuditCreateManyArgs>(args?: SelectSubset<T, BookingAuditCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BookingAudits and returns the data saved in the database.
+     * @param {BookingAuditCreateManyAndReturnArgs} args - Arguments to create many BookingAudits.
+     * @example
+     * // Create many BookingAudits
+     * const bookingAudit = await prisma.bookingAudit.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BookingAudits and only return the `id`
+     * const bookingAuditWithIdOnly = await prisma.bookingAudit.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BookingAuditCreateManyAndReturnArgs>(args?: SelectSubset<T, BookingAuditCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingAuditPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BookingAudit.
+     * @param {BookingAuditDeleteArgs} args - Arguments to delete one BookingAudit.
+     * @example
+     * // Delete one BookingAudit
+     * const BookingAudit = await prisma.bookingAudit.delete({
+     *   where: {
+     *     // ... filter to delete one BookingAudit
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BookingAuditDeleteArgs>(args: SelectSubset<T, BookingAuditDeleteArgs<ExtArgs>>): Prisma__BookingAuditClient<$Result.GetResult<Prisma.$BookingAuditPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BookingAudit.
+     * @param {BookingAuditUpdateArgs} args - Arguments to update one BookingAudit.
+     * @example
+     * // Update one BookingAudit
+     * const bookingAudit = await prisma.bookingAudit.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BookingAuditUpdateArgs>(args: SelectSubset<T, BookingAuditUpdateArgs<ExtArgs>>): Prisma__BookingAuditClient<$Result.GetResult<Prisma.$BookingAuditPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BookingAudits.
+     * @param {BookingAuditDeleteManyArgs} args - Arguments to filter BookingAudits to delete.
+     * @example
+     * // Delete a few BookingAudits
+     * const { count } = await prisma.bookingAudit.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BookingAuditDeleteManyArgs>(args?: SelectSubset<T, BookingAuditDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BookingAudits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingAuditUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BookingAudits
+     * const bookingAudit = await prisma.bookingAudit.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BookingAuditUpdateManyArgs>(args: SelectSubset<T, BookingAuditUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BookingAudits and returns the data updated in the database.
+     * @param {BookingAuditUpdateManyAndReturnArgs} args - Arguments to update many BookingAudits.
+     * @example
+     * // Update many BookingAudits
+     * const bookingAudit = await prisma.bookingAudit.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BookingAudits and only return the `id`
+     * const bookingAuditWithIdOnly = await prisma.bookingAudit.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BookingAuditUpdateManyAndReturnArgs>(args: SelectSubset<T, BookingAuditUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingAuditPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BookingAudit.
+     * @param {BookingAuditUpsertArgs} args - Arguments to update or create a BookingAudit.
+     * @example
+     * // Update or create a BookingAudit
+     * const bookingAudit = await prisma.bookingAudit.upsert({
+     *   create: {
+     *     // ... data to create a BookingAudit
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BookingAudit we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BookingAuditUpsertArgs>(args: SelectSubset<T, BookingAuditUpsertArgs<ExtArgs>>): Prisma__BookingAuditClient<$Result.GetResult<Prisma.$BookingAuditPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BookingAudits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingAuditCountArgs} args - Arguments to filter BookingAudits to count.
+     * @example
+     * // Count the number of BookingAudits
+     * const count = await prisma.bookingAudit.count({
+     *   where: {
+     *     // ... the filter for the BookingAudits we want to count
+     *   }
+     * })
+    **/
+    count<T extends BookingAuditCountArgs>(
+      args?: Subset<T, BookingAuditCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BookingAuditCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BookingAudit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingAuditAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BookingAuditAggregateArgs>(args: Subset<T, BookingAuditAggregateArgs>): Prisma.PrismaPromise<GetBookingAuditAggregateType<T>>
+
+    /**
+     * Group by BookingAudit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingAuditGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BookingAuditGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BookingAuditGroupByArgs['orderBy'] }
+        : { orderBy?: BookingAuditGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BookingAuditGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBookingAuditGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BookingAudit model
+   */
+  readonly fields: BookingAuditFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BookingAudit.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BookingAuditClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BookingAudit model
+   */
+  interface BookingAuditFieldRefs {
+    readonly id: FieldRef<"BookingAudit", 'BigInt'>
+    readonly bookingId: FieldRef<"BookingAudit", 'Int'>
+    readonly action: FieldRef<"BookingAudit", 'String'>
+    readonly actorUserId: FieldRef<"BookingAudit", 'Int'>
+    readonly actorName: FieldRef<"BookingAudit", 'String'>
+    readonly actorTelegramUserName: FieldRef<"BookingAudit", 'String'>
+    readonly source: FieldRef<"BookingAudit", 'String'>
+    readonly databaseUser: FieldRef<"BookingAudit", 'String'>
+    readonly before: FieldRef<"BookingAudit", 'Json'>
+    readonly after: FieldRef<"BookingAudit", 'Json'>
+    readonly createdAt: FieldRef<"BookingAudit", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BookingAudit findUnique
+   */
+  export type BookingAuditFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingAudit
+     */
+    select?: BookingAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookingAudit
+     */
+    omit?: BookingAuditOmit<ExtArgs> | null
+    /**
+     * Filter, which BookingAudit to fetch.
+     */
+    where: BookingAuditWhereUniqueInput
+  }
+
+  /**
+   * BookingAudit findUniqueOrThrow
+   */
+  export type BookingAuditFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingAudit
+     */
+    select?: BookingAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookingAudit
+     */
+    omit?: BookingAuditOmit<ExtArgs> | null
+    /**
+     * Filter, which BookingAudit to fetch.
+     */
+    where: BookingAuditWhereUniqueInput
+  }
+
+  /**
+   * BookingAudit findFirst
+   */
+  export type BookingAuditFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingAudit
+     */
+    select?: BookingAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookingAudit
+     */
+    omit?: BookingAuditOmit<ExtArgs> | null
+    /**
+     * Filter, which BookingAudit to fetch.
+     */
+    where?: BookingAuditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BookingAudits to fetch.
+     */
+    orderBy?: BookingAuditOrderByWithRelationInput | BookingAuditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BookingAudits.
+     */
+    cursor?: BookingAuditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BookingAudits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BookingAudits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BookingAudits.
+     */
+    distinct?: BookingAuditScalarFieldEnum | BookingAuditScalarFieldEnum[]
+  }
+
+  /**
+   * BookingAudit findFirstOrThrow
+   */
+  export type BookingAuditFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingAudit
+     */
+    select?: BookingAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookingAudit
+     */
+    omit?: BookingAuditOmit<ExtArgs> | null
+    /**
+     * Filter, which BookingAudit to fetch.
+     */
+    where?: BookingAuditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BookingAudits to fetch.
+     */
+    orderBy?: BookingAuditOrderByWithRelationInput | BookingAuditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BookingAudits.
+     */
+    cursor?: BookingAuditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BookingAudits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BookingAudits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BookingAudits.
+     */
+    distinct?: BookingAuditScalarFieldEnum | BookingAuditScalarFieldEnum[]
+  }
+
+  /**
+   * BookingAudit findMany
+   */
+  export type BookingAuditFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingAudit
+     */
+    select?: BookingAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookingAudit
+     */
+    omit?: BookingAuditOmit<ExtArgs> | null
+    /**
+     * Filter, which BookingAudits to fetch.
+     */
+    where?: BookingAuditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BookingAudits to fetch.
+     */
+    orderBy?: BookingAuditOrderByWithRelationInput | BookingAuditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BookingAudits.
+     */
+    cursor?: BookingAuditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BookingAudits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BookingAudits.
+     */
+    skip?: number
+    distinct?: BookingAuditScalarFieldEnum | BookingAuditScalarFieldEnum[]
+  }
+
+  /**
+   * BookingAudit create
+   */
+  export type BookingAuditCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingAudit
+     */
+    select?: BookingAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookingAudit
+     */
+    omit?: BookingAuditOmit<ExtArgs> | null
+    /**
+     * The data needed to create a BookingAudit.
+     */
+    data: XOR<BookingAuditCreateInput, BookingAuditUncheckedCreateInput>
+  }
+
+  /**
+   * BookingAudit createMany
+   */
+  export type BookingAuditCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BookingAudits.
+     */
+    data: BookingAuditCreateManyInput | BookingAuditCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BookingAudit createManyAndReturn
+   */
+  export type BookingAuditCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingAudit
+     */
+    select?: BookingAuditSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookingAudit
+     */
+    omit?: BookingAuditOmit<ExtArgs> | null
+    /**
+     * The data used to create many BookingAudits.
+     */
+    data: BookingAuditCreateManyInput | BookingAuditCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BookingAudit update
+   */
+  export type BookingAuditUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingAudit
+     */
+    select?: BookingAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookingAudit
+     */
+    omit?: BookingAuditOmit<ExtArgs> | null
+    /**
+     * The data needed to update a BookingAudit.
+     */
+    data: XOR<BookingAuditUpdateInput, BookingAuditUncheckedUpdateInput>
+    /**
+     * Choose, which BookingAudit to update.
+     */
+    where: BookingAuditWhereUniqueInput
+  }
+
+  /**
+   * BookingAudit updateMany
+   */
+  export type BookingAuditUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BookingAudits.
+     */
+    data: XOR<BookingAuditUpdateManyMutationInput, BookingAuditUncheckedUpdateManyInput>
+    /**
+     * Filter which BookingAudits to update
+     */
+    where?: BookingAuditWhereInput
+    /**
+     * Limit how many BookingAudits to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BookingAudit updateManyAndReturn
+   */
+  export type BookingAuditUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingAudit
+     */
+    select?: BookingAuditSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookingAudit
+     */
+    omit?: BookingAuditOmit<ExtArgs> | null
+    /**
+     * The data used to update BookingAudits.
+     */
+    data: XOR<BookingAuditUpdateManyMutationInput, BookingAuditUncheckedUpdateManyInput>
+    /**
+     * Filter which BookingAudits to update
+     */
+    where?: BookingAuditWhereInput
+    /**
+     * Limit how many BookingAudits to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BookingAudit upsert
+   */
+  export type BookingAuditUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingAudit
+     */
+    select?: BookingAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookingAudit
+     */
+    omit?: BookingAuditOmit<ExtArgs> | null
+    /**
+     * The filter to search for the BookingAudit to update in case it exists.
+     */
+    where: BookingAuditWhereUniqueInput
+    /**
+     * In case the BookingAudit found by the `where` argument doesn't exist, create a new BookingAudit with this data.
+     */
+    create: XOR<BookingAuditCreateInput, BookingAuditUncheckedCreateInput>
+    /**
+     * In case the BookingAudit was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BookingAuditUpdateInput, BookingAuditUncheckedUpdateInput>
+  }
+
+  /**
+   * BookingAudit delete
+   */
+  export type BookingAuditDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingAudit
+     */
+    select?: BookingAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookingAudit
+     */
+    omit?: BookingAuditOmit<ExtArgs> | null
+    /**
+     * Filter which BookingAudit to delete.
+     */
+    where: BookingAuditWhereUniqueInput
+  }
+
+  /**
+   * BookingAudit deleteMany
+   */
+  export type BookingAuditDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BookingAudits to delete
+     */
+    where?: BookingAuditWhereInput
+    /**
+     * Limit how many BookingAudits to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BookingAudit without action
+   */
+  export type BookingAuditDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookingAudit
+     */
+    select?: BookingAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookingAudit
+     */
+    omit?: BookingAuditOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -8667,12 +9865,44 @@ export namespace Prisma {
   export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
 
 
+  export const BookingAuditScalarFieldEnum: {
+    id: 'id',
+    bookingId: 'bookingId',
+    action: 'action',
+    actorUserId: 'actorUserId',
+    actorName: 'actorName',
+    actorTelegramUserName: 'actorTelegramUserName',
+    source: 'source',
+    databaseUser: 'databaseUser',
+    before: 'before',
+    after: 'after',
+    createdAt: 'createdAt'
+  };
+
+  export type BookingAuditScalarFieldEnum = (typeof BookingAuditScalarFieldEnum)[keyof typeof BookingAuditScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const QueryMode: {
@@ -8689,6 +9919,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -8756,6 +9995,34 @@ export namespace Prisma {
    * Reference to a field of type 'IGCategory[]'
    */
   export type ListEnumIGCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IGCategory[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'BigInt'
+   */
+  export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+    
+
+
+  /**
+   * Reference to a field of type 'BigInt[]'
+   */
+  export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -9249,6 +10516,90 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
   }
 
+  export type BookingAuditWhereInput = {
+    AND?: BookingAuditWhereInput | BookingAuditWhereInput[]
+    OR?: BookingAuditWhereInput[]
+    NOT?: BookingAuditWhereInput | BookingAuditWhereInput[]
+    id?: BigIntFilter<"BookingAudit"> | bigint | number
+    bookingId?: IntFilter<"BookingAudit"> | number
+    action?: StringFilter<"BookingAudit"> | string
+    actorUserId?: IntNullableFilter<"BookingAudit"> | number | null
+    actorName?: StringNullableFilter<"BookingAudit"> | string | null
+    actorTelegramUserName?: StringNullableFilter<"BookingAudit"> | string | null
+    source?: StringFilter<"BookingAudit"> | string
+    databaseUser?: StringFilter<"BookingAudit"> | string
+    before?: JsonFilter<"BookingAudit">
+    after?: JsonNullableFilter<"BookingAudit">
+    createdAt?: DateTimeFilter<"BookingAudit"> | Date | string
+  }
+
+  export type BookingAuditOrderByWithRelationInput = {
+    id?: SortOrder
+    bookingId?: SortOrder
+    action?: SortOrder
+    actorUserId?: SortOrderInput | SortOrder
+    actorName?: SortOrderInput | SortOrder
+    actorTelegramUserName?: SortOrderInput | SortOrder
+    source?: SortOrder
+    databaseUser?: SortOrder
+    before?: SortOrder
+    after?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BookingAuditWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: BookingAuditWhereInput | BookingAuditWhereInput[]
+    OR?: BookingAuditWhereInput[]
+    NOT?: BookingAuditWhereInput | BookingAuditWhereInput[]
+    bookingId?: IntFilter<"BookingAudit"> | number
+    action?: StringFilter<"BookingAudit"> | string
+    actorUserId?: IntNullableFilter<"BookingAudit"> | number | null
+    actorName?: StringNullableFilter<"BookingAudit"> | string | null
+    actorTelegramUserName?: StringNullableFilter<"BookingAudit"> | string | null
+    source?: StringFilter<"BookingAudit"> | string
+    databaseUser?: StringFilter<"BookingAudit"> | string
+    before?: JsonFilter<"BookingAudit">
+    after?: JsonNullableFilter<"BookingAudit">
+    createdAt?: DateTimeFilter<"BookingAudit"> | Date | string
+  }, "id">
+
+  export type BookingAuditOrderByWithAggregationInput = {
+    id?: SortOrder
+    bookingId?: SortOrder
+    action?: SortOrder
+    actorUserId?: SortOrderInput | SortOrder
+    actorName?: SortOrderInput | SortOrder
+    actorTelegramUserName?: SortOrderInput | SortOrder
+    source?: SortOrder
+    databaseUser?: SortOrder
+    before?: SortOrder
+    after?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: BookingAuditCountOrderByAggregateInput
+    _avg?: BookingAuditAvgOrderByAggregateInput
+    _max?: BookingAuditMaxOrderByAggregateInput
+    _min?: BookingAuditMinOrderByAggregateInput
+    _sum?: BookingAuditSumOrderByAggregateInput
+  }
+
+  export type BookingAuditScalarWhereWithAggregatesInput = {
+    AND?: BookingAuditScalarWhereWithAggregatesInput | BookingAuditScalarWhereWithAggregatesInput[]
+    OR?: BookingAuditScalarWhereWithAggregatesInput[]
+    NOT?: BookingAuditScalarWhereWithAggregatesInput | BookingAuditScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"BookingAudit"> | bigint | number
+    bookingId?: IntWithAggregatesFilter<"BookingAudit"> | number
+    action?: StringWithAggregatesFilter<"BookingAudit"> | string
+    actorUserId?: IntNullableWithAggregatesFilter<"BookingAudit"> | number | null
+    actorName?: StringNullableWithAggregatesFilter<"BookingAudit"> | string | null
+    actorTelegramUserName?: StringNullableWithAggregatesFilter<"BookingAudit"> | string | null
+    source?: StringWithAggregatesFilter<"BookingAudit"> | string
+    databaseUser?: StringWithAggregatesFilter<"BookingAudit"> | string
+    before?: JsonWithAggregatesFilter<"BookingAudit">
+    after?: JsonNullableWithAggregatesFilter<"BookingAudit">
+    createdAt?: DateTimeWithAggregatesFilter<"BookingAudit"> | Date | string
+  }
+
   export type UserCreateInput = {
     name: string
     telegramId: string
@@ -9726,6 +11077,104 @@ export namespace Prisma {
     deleted?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BookingAuditCreateInput = {
+    id?: bigint | number
+    bookingId: number
+    action: string
+    actorUserId?: number | null
+    actorName?: string | null
+    actorTelegramUserName?: string | null
+    source?: string
+    databaseUser?: string
+    before: JsonNullValueInput | InputJsonValue
+    after?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type BookingAuditUncheckedCreateInput = {
+    id?: bigint | number
+    bookingId: number
+    action: string
+    actorUserId?: number | null
+    actorName?: string | null
+    actorTelegramUserName?: string | null
+    source?: string
+    databaseUser?: string
+    before: JsonNullValueInput | InputJsonValue
+    after?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type BookingAuditUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    bookingId?: IntFieldUpdateOperationsInput | number
+    action?: StringFieldUpdateOperationsInput | string
+    actorUserId?: NullableIntFieldUpdateOperationsInput | number | null
+    actorName?: NullableStringFieldUpdateOperationsInput | string | null
+    actorTelegramUserName?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    databaseUser?: StringFieldUpdateOperationsInput | string
+    before?: JsonNullValueInput | InputJsonValue
+    after?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BookingAuditUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    bookingId?: IntFieldUpdateOperationsInput | number
+    action?: StringFieldUpdateOperationsInput | string
+    actorUserId?: NullableIntFieldUpdateOperationsInput | number | null
+    actorName?: NullableStringFieldUpdateOperationsInput | string | null
+    actorTelegramUserName?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    databaseUser?: StringFieldUpdateOperationsInput | string
+    before?: JsonNullValueInput | InputJsonValue
+    after?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BookingAuditCreateManyInput = {
+    id?: bigint | number
+    bookingId: number
+    action: string
+    actorUserId?: number | null
+    actorName?: string | null
+    actorTelegramUserName?: string | null
+    source?: string
+    databaseUser?: string
+    before: JsonNullValueInput | InputJsonValue
+    after?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type BookingAuditUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    bookingId?: IntFieldUpdateOperationsInput | number
+    action?: StringFieldUpdateOperationsInput | string
+    actorUserId?: NullableIntFieldUpdateOperationsInput | number | null
+    actorName?: NullableStringFieldUpdateOperationsInput | string | null
+    actorTelegramUserName?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    databaseUser?: StringFieldUpdateOperationsInput | string
+    before?: JsonNullValueInput | InputJsonValue
+    after?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BookingAuditUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    bookingId?: IntFieldUpdateOperationsInput | number
+    action?: StringFieldUpdateOperationsInput | string
+    actorUserId?: NullableIntFieldUpdateOperationsInput | number | null
+    actorName?: NullableStringFieldUpdateOperationsInput | string | null
+    actorTelegramUserName?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    databaseUser?: StringFieldUpdateOperationsInput | string
+    before?: JsonNullValueInput | InputJsonValue
+    after?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -10268,6 +11717,181 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
+  export type BigIntFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntFilter<$PrismaModel> | bigint | number
+  }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type BookingAuditCountOrderByAggregateInput = {
+    id?: SortOrder
+    bookingId?: SortOrder
+    action?: SortOrder
+    actorUserId?: SortOrder
+    actorName?: SortOrder
+    actorTelegramUserName?: SortOrder
+    source?: SortOrder
+    databaseUser?: SortOrder
+    before?: SortOrder
+    after?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BookingAuditAvgOrderByAggregateInput = {
+    id?: SortOrder
+    bookingId?: SortOrder
+    actorUserId?: SortOrder
+  }
+
+  export type BookingAuditMaxOrderByAggregateInput = {
+    id?: SortOrder
+    bookingId?: SortOrder
+    action?: SortOrder
+    actorUserId?: SortOrder
+    actorName?: SortOrder
+    actorTelegramUserName?: SortOrder
+    source?: SortOrder
+    databaseUser?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BookingAuditMinOrderByAggregateInput = {
+    id?: SortOrder
+    bookingId?: SortOrder
+    action?: SortOrder
+    actorUserId?: SortOrder
+    actorName?: SortOrder
+    actorTelegramUserName?: SortOrder
+    source?: SortOrder
+    databaseUser?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BookingAuditSumOrderByAggregateInput = {
+    id?: SortOrder
+    bookingId?: SortOrder
+    actorUserId?: SortOrder
+  }
+
+  export type BigIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedBigIntFilter<$PrismaModel>
+    _min?: NestedBigIntFilter<$PrismaModel>
+    _max?: NestedBigIntFilter<$PrismaModel>
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
   export type UserOnOrgCreateNestedManyWithoutUserInput = {
     create?: XOR<UserOnOrgCreateWithoutUserInput, UserOnOrgUncheckedCreateWithoutUserInput> | UserOnOrgCreateWithoutUserInput[] | UserOnOrgUncheckedCreateWithoutUserInput[]
     connectOrCreate?: UserOnOrgCreateOrConnectWithoutUserInput | UserOnOrgCreateOrConnectWithoutUserInput[]
@@ -10748,6 +12372,14 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type BigIntFieldUpdateOperationsInput = {
+    set?: bigint | number
+    increment?: bigint | number
+    decrement?: bigint | number
+    multiply?: bigint | number
+    divide?: bigint | number
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -10964,6 +12596,79 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedBigIntFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntFilter<$PrismaModel> | bigint | number
+  }
+
+  export type NestedBigIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedBigIntFilter<$PrismaModel>
+    _min?: NestedBigIntFilter<$PrismaModel>
+    _max?: NestedBigIntFilter<$PrismaModel>
+  }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type UserOnOrgCreateWithoutUserInput = {
